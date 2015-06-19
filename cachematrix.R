@@ -10,14 +10,14 @@ makeCacheMatrix <- function(x = matrix()) {
 ##	4. get the inverse
 ##	this list is used as the input to cacheSolve()
 
-	inv = NULL
-	set = function(y) {
+	inv <- NULL
+	set <- function(y) {
 		x <<- y
 		inv <<- NULL
 		}
-	get = function() x
-	setinv = function(solve) inv <<- solve 
-	getinv = function() inv
+	get <- function() x
+	setinv <- function(solve) inv <<- solve 
+	getinv <- function() inv
 	list(set = set, get = get, setinv = setinv, getinv = getinv)
 }
 
