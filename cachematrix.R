@@ -1,15 +1,50 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
+## makeCacheMatrix takes an input as a square invertible matrix and caches the inverse of the matrix.
+## The function returns a list used as the input to the companion function cacheSolve. 
 
 makeCacheMatrix <- function(x = matrix()) {
+## x: a square invertible matrix
+## return: a list containing functions to
+##	1. set the matrix
+##	2. get the matrix
+##	3. set the inverse
+##	4. get the inverse
+##	this list is used as the input to cacheSolve()
 
+	inv = NULL
+	set = function(y) {
+		## use `<<-` to assign a value to an object in an environment 
+		## different from the current environment. 
+		x <<- y
+		inv <<- NULL
+		}
+	get = function() x
+	setinv = function(inverse) inv <<- inverse 
+	getinv = function() inv
+	list(set = set, get = get, setinv = setinv, getinv = getinv)
 }
 
+## cacheSolve takes the output of makeCacheMatrix and returns the inverse matrix from the cache.
+## If the inverse has not been cached, the function should calculate the inverse and return the inverse.
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-}
+ cacheSolve <- function(x, ...) {
+		## @x: output of makeCacheMatrix()
+		## return: inverse of the original matrix input to makeCacheMatrix()
+         
+		inv <- x$getinv()
+         
+		## if the inverse has already been calculated
+         if (!is.null(inv)){
+                 ## gets inverse from the cache and skips the computation. 
+                 message("getting cached data")
+                 return(inv)
+         }
+         
+         # otherwise the function calculates the inverse 
+         data <- x$get()
+         inv <- solve(data, ...)
+         
+         # sets the value of the inverse in the cache via the setinv function.
+         x$setinv(inv)
+         
+         return(inv)
+ }
